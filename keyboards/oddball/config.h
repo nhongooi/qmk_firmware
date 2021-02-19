@@ -37,9 +37,6 @@
 #define SPLIT_USB_DETECT
 #define MASTER_RIGHT
 
-/* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
-#define DEBOUNCE 5
-
 /* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
 #define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
@@ -50,10 +47,17 @@
 #define NO_ACTION_FUNCTION
 
 /* optical sensor settings */
-#define SCROLL_DIVIDER 12
-#define CPI_1 2000
-#define CPI_2 4000
-#define CPI_3 8000
+#define SCROLL_DIVIDER 9
+#define CPI_1 1400
+#define CPI_2 1800
+#define CPI_3 2200
+#define TAPPING_TERM 200
+#define AUTO_SHIFT_MODIFIERS
+#define AUTO_SHIFT_TIMEOUT 135
+#define AUTO_SHIFT_NO_AUTO_REPEAT
+#define NO_AUTO_SHIFT_ALPHA
+#define PERMISSIVE_HOLD
+#define TAPPING_FORCE_HOLD
 
 /* Bootmagic Lite key configuration */
 // #define BOOTMAGIC_LITE_ROW 0
