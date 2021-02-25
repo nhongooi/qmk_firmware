@@ -1,6 +1,16 @@
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 
+
+#ifdef PROTOCOL_LUFA
+  #include "lufa.h"
+  #include "split_util.h"
+#endif
+#ifdef SSD1306OLED
+  #include "ssd1306.h"
+#endif
+
+
 extern uint8_t is_master;
 
 enum layer_number {
@@ -21,8 +31,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   * |------+------+------+------+------+------|   [   |    |    ]  |------+------+------+------+------+------|
   * |LShift|LAlt_Z|   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |   ,  |   .  |   /  |  =   |
   * `-----------------------------------------/       /     \      \-----------------------------------------'
-  *                   | PGUP | CTRL | META | /Space  /       \Enter \  | LT_1 | HOME | END  |
-  *                   |      | PGDN |      |/       /         \      \ |DELETE|      |      |
+  *                   | META | CTRL | META | /Space  /       \Enter \  | LT_1 | HOME | END  |
+  *                   | PGUP | PGDN |      |/       /         \      \ |DELETE|      |      |
   *                   `----------------------------'           '------''--------------------'
   */
 
@@ -31,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,         KC_W,    KC_E,    KC_R,    KC_T,                     KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_QUOT, \
     KC_BSPC, KC_A,         KC_S,    KC_D,    KC_F,    KC_G,                     KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_MINS, \
     KC_LSFT, LALT_T(KC_Z), KC_X,    KC_C,    KC_V,    KC_B, KC_LBRC,   KC_RBRC, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_EQL, \
-                        KC_PGUP,  LCTL_T(KC_PGDN), KC_LGUI, KC_SPC,    KC_ENT, LT(1,KC_DEL), KC_HOME, KC_END \
+                   LT(1,KC_PGUP), LCTL_T(KC_PGDN), KC_LGUI, KC_SPC,    KC_ENT,   LT(1,KC_DEL), KC_HOME, KC_END \
   ),
   /* LOWER
   * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -48,10 +58,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   *                   `----------------------------'           '------''--------------------'
   */
   [_LOWER] = LAYOUT( \
-    _______, _______, _______, _______, _______, _______,                   TG(2), _______, _______,_______, _______, _______,\
-    KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
-    _______, _______, _______, _______, _______, _______,                   KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, _______, _______, \
-    _______, _______, _______, _______, _______, _______, KC_ENT , _______, _______, _______, _______, _______, _______, KC_BSLS, \
+    _______, _______,   _______,    _______,    _______,       _______,                   TG(2), _______, _______,_______, _______, _______,\
+    KC_F1,   KC_F2,     KC_F3,      KC_F4,      KC_F5,         KC_F6,                     KC_F7,   KC_F8,   KC_F9, KC_F10,  KC_F11,  KC_F12, \
+    _______, LGUI(KC_J),LGUI(KC_K), LGUI(KC_L), LGUI(KC_SCLN), _______,                   KC_LEFT, KC_DOWN, KC_UP, KC_RGHT, _______, _______, \
+    _______, _______,    _______, _______, _______, _______, KC_ENT , _______, _______, _______, _______, _______, _______, KC_BSLS, \
                               _______, _______, _______, _______, _______,  _______, _______, _______\
   ),
   /* _EDIA
@@ -70,22 +80,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
 
   [_MEDIA] = LAYOUT( \
-    _______, _______, _______, _______, _______, _______,                     LCTL(KC_DEL), _______, _______, _______, _______, KC_Q, \
-    _______, _______, _______, _______, _______, _______,                     LSFT(KC_A), _______, _______, _______, _______, _______, \
-    _______, _______, _______, _______, _______, _______,                     KC_DEL, LSFT(KC_PGUP), KC_UP, LSFT(KC_PGDN), _______, _______, \
-    _______, _______, _______, _______, _______, _______,  _______, KC_PAUS,  KC_LT, KC_HOME, KC_DOWN,  KC_END, KC_GT, TG(2), \
-                              _______, _______, _______,  _______, _______,  _______, _______, _______ \
+    _______, _______, _______, _______, _______, _______,                     LCTL(KC_DEL), _______,       _______, _______,       _______, KC_Q, \
+    _______, _______, _______, _______, _______, _______,                     LSFT(KC_A),   LSFT(KC_PGUP), KC_UP,   LSFT(KC_PGDN), _______, _______, \
+    _______, _______, _______, _______, _______, _______,                     KC_DEL,       KC_HOME,       KC_DOWN, KC_END,        _______, _______, \
+    _______, _______, _______, _______, _______, _______,  _______, KC_PAUS,  KC_LT,        KC_GT,         _______, _______,       _______, TG(2), \
+                               _______, _______, _______,  _______, _______,  _______, _______, _______ \
   )
 };
-
-// Setting ADJUST layer RGB back to default
-void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
-  if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
-    layer_on(layer3);
-  } else {
-    layer_off(layer3);
-  }
-}
 
 // Credit: https://github.com/HellSingCoder/qmk_firmware/tree/master/keyboards/sofle/keymaps/HellSingCoder
 #ifdef OLED_DRIVER_ENABLE
@@ -305,11 +306,14 @@ static void print_logo_narrow(void) {
 }
 
 static void print_status_narrow(void) {
-    oled_set_cursor(0,3);
+    oled_set_cursor(0,1);
 
     switch (get_highest_layer(default_layer_state)) {
         case _QWERTY:
             oled_write("QWRTY", false);
+            break;
+        case _LOWER:
+            oled_write("LOWER", false);
             break;
         case _MEDIA:
             oled_write("MEDIA", false);
@@ -324,6 +328,8 @@ static void print_status_narrow(void) {
     oled_write("LAYER", false);
 
     oled_set_cursor(0,6);
+    oled_write("-----", false);
+    oled_set_cursor(0,7);
 
     switch (get_highest_layer(layer_state)) {
         case _QWERTY:
@@ -339,9 +345,8 @@ static void print_status_narrow(void) {
             oled_write("Undef", false);
     }
 
-    // caps lock
     oled_set_cursor(0,8);
-    oled_write("CPSLK", led_usb_state.caps_lock);
+    oled_write("-----", false);
 
     // KEYBOARD PET RENDER START
 
