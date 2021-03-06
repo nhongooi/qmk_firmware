@@ -30,11 +30,11 @@ enum custom_kc{
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //prob want a third layer and stack up lower for more useful keys
   [_QWERTY] = LAYOUT(
-    KC_GESC,         KC_1,  KC_2,  KC_3,  KC_4,     KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_EQL,
-    LALT_T(KC_TAB),  KC_Q,  KC_W,  KC_E,  KC_R,     KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_QUOT,
-    KC_BSPC,         KC_A,  KC_S,  KC_D,  KC_F,     KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_MINS,
-    LSFT_T(KC_LCBR), KC_Z,  KC_X,  KC_C,  KC_V,     KC_B,    KC_PGDN, KC_HOME, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_RCBR),
-                                   MO(1), KC_LCTRL, KC_LGUI, KC_SPC,  KC_ENT,  MO(1),   MO(3),   RGUI(KC_RCTRL)),
+    KC_GESC,         KC_1,          KC_2,  KC_3,  KC_4,     KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_EQL,
+    KC_TAB,          KC_Q,          KC_W,  KC_E,  KC_R,     KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_QUOT,
+    KC_BSPC,         KC_A,          KC_S,  KC_D,  KC_F,     KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_MINS,
+    LSFT_T(KC_LCBR), LALT_T(KC_Z),  KC_X,  KC_C,  KC_V,     KC_B,    KC_PGDN, KC_HOME, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_RCBR),
+                                           MO(1), KC_LCTRL, KC_LGUI, KC_SPC,  KC_ENT,  MO(1),   MO(3),   RGUI(KC_RCTRL)),
   [_LOWER] = LAYOUT(
     KC_F1,   KC_F2,      KC_F3,      KC_F4,      KC_F5,         KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
     _______, _______,    _______,    _______,    _______,       _______,                   JWB,     _______, _______, _______, _______, TG(2),
@@ -53,94 +53,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, RCS(KC_DEL), _______, _______, _______,                        _______,   _______,        _______,        LCA(KC_L),  _______,       _______,
     _______, _______, _______,     _______, _______, _______,  _______, MEH(KC_T),   _______,   _______,        _______,        _______,    RCTL(KC_SLSH), _______,
                                    _______, _______, _______,  _______, RCS(KC_ENT), _______,   _______,        _______)
-};
-
-uint8_t mod_state;
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    // Store the current modifier state in the variable for later reference
-    mod_state = get_mods();
-    switch (keycode) {
-        case KC_BSPC:{
-            // Initialize a boolean variable that keeps track
-            // of the delete key status: registered or not?
-            static bool delkey_registered;
-            if (record->event.pressed) {
-                // Detect the activation of either shift keys
-                if (mod_state & MOD_MASK_SHIFT) {
-                    // First temporarily canceling both shifts so that
-                    // shift isn't applied to the KC_DEL keycode
-                    del_mods(MOD_MASK_SHIFT);
-                    register_code(KC_DEL);
-                    // Update the boolean variable to reflect the status of KC_DEL
-                    delkey_registered = true;
-                    // Reapplying modifier state so that the held shift key(s)
-                    // still work even after having tapped the Backspace/Delete key.
-                    set_mods(mod_state);
-                    return false;
-                }
-            } else { // on release of KC_BSPC
-                // In case KC_DEL is still being sent even after the release of KC_BSPC
-                if (delkey_registered) {
-                    unregister_code(KC_DEL);
-                    delkey_registered = false;
-                    return false;
-                }
-            }
-            // Let QMK process the KC_BSPC keycode as usual outside of shift
-            break;
-        }
-        case KC_HOME:{
-            static bool homekey_registered;
-            if (record->event.pressed) {
-                if (mod_state & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                register_code(KC_END);
-                homekey_registered = true;
-                set_mods(mod_state);
-                return false;
-                }
-            } else {
-                if (homekey_registered) {
-                unregister_code(KC_END);
-                homekey_registered = false;
-                return false;
-                }
-            }
-            break;
-        }
-        case KC_PGUP:{
-            static bool pagekey_registered;
-            if (record->event.pressed) {
-                if (mod_state & MOD_MASK_SHIFT) {
-                del_mods(MOD_MASK_SHIFT);
-                register_code(KC_PGDN);
-                pagekey_registered = true;
-                set_mods(mod_state);
-                return false;
-                }
-            } else {
-                if (pagekey_registered) {
-                unregister_code(KC_PGDN);
-                pagekey_registered = false;
-                return false;
-                }
-            }
-            break;
-        }
-        case LSLTR:
-            if (record->event.pressed) {SEND_STRING("ls -ltr");}
-            break;
-        case GREP:
-            if (record->event.pressed) {SEND_STRING("| grep ");}
-            break;
-        case MVN:
-            if (record->event.pressed) {SEND_STRING("mvn clean ");}
-            break;
-        case JWB:
-            if (record->event.pressed) {SEND_STRING("JWBIII");}
-            break;
-    }
-    return true;
 };
 
 // https://github.com/foureight84/qmk_firmware/blob/sofle_foureight84/keyboards/sofle/keymaps/foureight84/keymap.c
@@ -176,16 +88,17 @@ uint8_t current_frame = 0;
 
 // status variables
 int current_wpm = 0;
-led_t led_usb_state;
 
 bool isSneaking = false;
 bool isJumping = false;
 bool showedJump = true;
+bool isWoof = false;
 
 // Implementation credit j-inc(/James Incandenza), pixelbenny, and obosob.
 // Bongo cat images changed and adapted for sofle keyboard oled size.
 // Original gif can be found here: https://www.pixilart.com/art/bongo-cat-bd2a8e9323aa705
 static void render_bongo(void) {
+
     static const char PROGMEM idle[IDLE_FRAMES][ANIM_SIZE] = {
         {
         0x00, 0xc0, 0x3e, 0x01, 0x00, 0x00, 0x00, 0xc0, 0xfc, 0x03, 0x00, 0x03, 0x0c, 0x30, 0xc0, 0x00,
@@ -260,21 +173,12 @@ static void render_bongo(void) {
     //assumes 1 frame prep stage
     void animation_phase(void) {
         if(get_current_wpm() <=IDLE_SPEED){
-            /*
-            current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
-            oled_write_raw_P(idle[abs((IDLE_FRAMES-1)-current_idle_frame)], ANIM_SIZE);
-            */
             oled_write_raw_P(idle[0], ANIM_SIZE);
          }
-         /*
-         if(get_current_wpm() >IDLE_SPEED && get_current_wpm() <TAP_SPEED){
-             // oled_write_raw_P(prep[abs((PREP_FRAMES-1)-current_prep_frame)], ANIM_SIZE); // uncomment if IDLE_FRAMES >1
-             oled_write_raw_P(prep[0], ANIM_SIZE);  // remove if IDLE_FRAMES >1
-         }*/
-         if(get_current_wpm() >=TAP_SPEED){
-             current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
-             oled_write_raw_P(tap[abs((TAP_FRAMES-1)-current_tap_frame)], ANIM_SIZE);
-         }
+        if(get_current_wpm() >=TAP_SPEED){
+            current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
+            oled_write_raw_P(tap[abs((TAP_FRAMES-1)-current_tap_frame)], ANIM_SIZE);
+        }
     }
     if(get_current_wpm() != 000) {
         oled_on(); // not essential but turns on animation OLED with any alpha keypress
@@ -295,6 +199,7 @@ static void render_bongo(void) {
     }
 }
 
+// https://github.com/HellSingCoder/qmk_firmware/tree/master/keyboards/sofle/keymaps/HellSingCoder
 static void render_luna(int LUNA_X, int LUNA_Y) {
 
     // Sit
@@ -438,18 +343,14 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
         current_frame = (current_frame + 1) % 2;
 
         // current status
-        if(led_usb_state.caps_lock) {
+        if(isWoof) {
             oled_write_raw_P(bark[abs(1 - current_frame)], ANIM_LUNA_SIZE);
-
         } else if(isSneaking) {
             oled_write_raw_P(sneak[abs(1 - current_frame)], ANIM_LUNA_SIZE);
-
         } else if(current_wpm <= MIN_WALK_SPEED) {
             oled_write_raw_P(sit[abs(1 - current_frame)], ANIM_LUNA_SIZE);
-
         } else if(current_wpm <= MIN_RUN_SPEED) {
             oled_write_raw_P(walk[abs(1 - current_frame)], ANIM_LUNA_SIZE);
-
         } else {
             oled_write_raw_P(run[abs(1 - current_frame)], ANIM_LUNA_SIZE);
         }
@@ -525,12 +426,114 @@ static void print_logo_narrow(void) {
 
 void oled_task_user(void) {
     current_wpm = get_current_wpm();
-
     if (is_keyboard_master()) {
         print_status_narrow();
     } else {
         print_logo_narrow();
     }
 }
+
+uint8_t mod_state;
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Store the current modifier state in the variable for later reference
+    mod_state = get_mods();
+    switch (keycode) {
+        case KC_BSPC:{
+            // Initialize a boolean variable that keeps track
+            // of the delete key status: registered or not?
+            static bool delkey_registered;
+            if (record->event.pressed) {
+                // Detect the activation of either shift keys
+                if (mod_state & MOD_MASK_SHIFT) {
+                    // First temporarily canceling both shifts so that
+                    // shift isn't applied to the KC_DEL keycode
+                    del_mods(MOD_MASK_SHIFT);
+                    register_code(KC_DEL);
+                    // Update the boolean variable to reflect the status of KC_DEL
+                    delkey_registered = true;
+                    // Reapplying modifier state so that the held shift key(s)
+                    // still work even after having tapped the Backspace/Delete key.
+                    set_mods(mod_state);
+                    return false;
+                }
+            } else { // on release of KC_BSPC
+                // In case KC_DEL is still being sent even after the release of KC_BSPC
+                if (delkey_registered) {
+                    unregister_code(KC_DEL);
+                    delkey_registered = false;
+                    return false;
+                }
+            }
+            // Let QMK process the KC_BSPC keycode as usual outside of shift
+            break;
+        }
+        case KC_HOME:{
+            static bool homekey_registered;
+            if (record->event.pressed) {
+                if (mod_state & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                register_code(KC_END);
+                homekey_registered = true;
+                set_mods(mod_state);
+                return false;
+                }
+            } else {
+                if (homekey_registered) {
+                unregister_code(KC_END);
+                homekey_registered = false;
+                return false;
+                }
+            }
+            break;
+        }
+        case KC_PGDN:{
+            static bool pagekey_registered;
+            if (record->event.pressed) {
+                if (mod_state & MOD_MASK_SHIFT) {
+                del_mods(MOD_MASK_SHIFT);
+                register_code(KC_PGUP);
+                pagekey_registered = true;
+                set_mods(mod_state);
+                return false;
+                }
+            } else {
+                if (pagekey_registered) {
+                unregister_code(KC_PGUP);
+                pagekey_registered = false;
+                return false;
+                }
+            }
+            break;
+        }
+        case LSLTR:
+            if (record->event.pressed) {SEND_STRING("ls -ltr");}
+            break;
+        case GREP:
+            if (record->event.pressed) {SEND_STRING("| grep ");}
+            break;
+        case MVN:
+            if (record->event.pressed) {SEND_STRING("mvn clean ");}
+            break;
+        case JWB:
+            if (record->event.pressed) {SEND_STRING("JWBIII");}
+            break;
+        case KC_SPC:
+            if (record->event.pressed) {
+                isJumping = true;
+                showedJump = false;
+            } else { isJumping = false; }
+            break;
+        case KC_LCTL:
+        case KC_RCTL:
+            if (record->event.pressed) { isSneaking = true; }
+            else { isSneaking = false; }
+            break;
+        case KC_ENT:
+            if (record->event.pressed) { isWoof= true; }
+            else { isWoof = false; }
+            break;
+    }
+    return true;
+};
 
 #endif
