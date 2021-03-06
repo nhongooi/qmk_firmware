@@ -1,13 +1,13 @@
 #include QMK_KEYBOARD_H
-#include <stdio.h>
-
 
 #ifdef PROTOCOL_LUFA
   #include "lufa.h"
   #include "split_util.h"
 #endif
-#ifdef SSD1306OLED
-  #include "ssd1306.h"
+
+#ifdef OLED_DRIVER_ENABLE
+#include <stdio.h>
+
 #endif
 
 
@@ -16,32 +16,43 @@ extern uint8_t is_master;
 enum layer_number {
   _QWERTY = 0,
   _LOWER  = 1,
-  _MEDIA  = 2
+  _MEDIA  = 2,
+  _IDEA = 3
+};
+
+enum custom_kc{
+    LSLTR = SAFE_RANGE,
+    GREP,
+    MVN,
+    JWB
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //prob want a third layer and stack up lower for more useful keys
-  [_QWERTY] = LAYOUT( \
-    KC_GESC,         KC_1,  KC_2,  KC_3,  KC_4,     KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_EQL, \
-    LALT_T(KC_TAB),  KC_Q,  KC_W,  KC_E,  KC_R,     KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_QUOT, \
-    KC_BSPC,         KC_A,  KC_S,  KC_D,  KC_F,     KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_MINS, \
-    LSFT_T(KC_LBRC), KC_Z,  KC_X,  KC_C,  KC_V,     KC_B,    KC_PGUP, KC_HOME, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_RBRC), \
-                                   MO(1), KC_LCTRL, KC_LGUI, KC_SPC,  KC_ENT,  MO(1),   MO(3),RGUI(KC_RCTRL) \
-  ),
-  [_LOWER] = LAYOUT( \
-    KC_F1,   KC_F2,      KC_F3,      KC_F4,      KC_F5,         KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12, \
-    _______, KC_LEFT,    KC_DOWN,    KC_UP,      KC_RGHT        _______,                   _______, _______, _______, _______, _______, TG(2), \
-    _______, LGUI(KC_J), LGUI(KC_K), LGUI(KC_L), LGUI(KC_SCLN), _______,                   _______, _______, GREP,    LSLTR,   _______, KC_BSLS, \
-    _______, _______,    _______,    _______,    _______,       _______, KC_ENT , _______, _______, MVN,     _______, _______, _______, _______, \
-                                     _______,    _______,       _______, _______, _______, _______, _______, _______\
-  ),
-  [_MEDIA] = LAYOUT( \
-    _______, _______, _______, _______, _______, _______,                     LCTL(KC_DEL), _______,       KC_I,    _______,       _______, KC_Q, \
-    _______, _______, _______, _______, _______, _______,                     LSFT(KC_A),   LSFT(KC_PGUP), KC_UP,   LSFT(KC_PGDN), _______, _______, \
-    _______, _______, _______, _______, _______, _______,                     KC_DEL,       KC_HOME,       KC_DOWN, KC_END,        _______, _______, \
-    _______, _______, _______, _______, _______, _______,  _______, KC_PAUS,  KC_LT,        KC_GT,         _______, _______,       _______, TG(2), \
-                               _______, _______, _______,  _______, _______,  _______, _______, _______ \
-  )
+  [_QWERTY] = LAYOUT(
+    KC_GESC,         KC_1,  KC_2,  KC_3,  KC_4,     KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_EQL,
+    LALT_T(KC_TAB),  KC_Q,  KC_W,  KC_E,  KC_R,     KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_QUOT,
+    KC_BSPC,         KC_A,  KC_S,  KC_D,  KC_F,     KC_G,                      KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_MINS,
+    LSFT_T(KC_LCBR), KC_Z,  KC_X,  KC_C,  KC_V,     KC_B,    KC_PGDN, KC_HOME, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_RCBR),
+                                   MO(1), KC_LCTRL, KC_LGUI, KC_SPC,  KC_ENT,  MO(1),   MO(3),   RGUI(KC_RCTRL)),
+  [_LOWER] = LAYOUT(
+    KC_F1,   KC_F2,      KC_F3,      KC_F4,      KC_F5,         KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+    _______, _______,    _______,    _______,    _______,       _______,                   JWB,     _______, _______, _______, _______, TG(2),
+    _______, LGUI(KC_J), LGUI(KC_K), LGUI(KC_L), LGUI(KC_SCLN), _______,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, KC_BSLS,
+    _______, _______,    _______,    _______,    _______,       _______, KC_ENT,  _______, GREP,    MVN,     LSLTR,   _______, _______, _______,
+                                     _______,    _______,       _______, _______, _______, _______, _______, _______),
+  [_MEDIA] = LAYOUT(
+    _______, _______, _______, _______, _______, _______,                     LCTL(KC_DEL), _______,       KC_I,    _______,       _______, KC_Q,
+    _______, _______, _______, _______, _______, _______,                     LSFT(KC_A),   LSFT(KC_PGUP), KC_UP,   LSFT(KC_PGDN), _______, _______,
+    _______, _______, _______, _______, _______, _______,                     KC_DEL,       KC_HOME,       KC_DOWN, KC_END,        _______, _______,
+    _______, _______, _______, _______, _______, _______,  _______, KC_PAUS,  KC_LT,        KC_GT,         _______, _______,       _______, TG(2),
+                               _______, _______, _______,  _______, _______,  _______,      _______,       _______),
+  [_IDEA] = LAYOUT(
+    _______, _______, _______,     _______, _______, _______,                        _______,   _______,        _______,        _______,    _______,       _______,
+    _______, _______, _______,     _______, _______, _______,                        RCS(KC_A), RALT(KC_F7),    RALT(KC_ENT),   _______,    _______,       _______,
+    _______, _______, RCS(KC_DEL), _______, _______, _______,                        _______,   _______,        _______,        LCA(KC_L),  _______,       _______,
+    _______, _______, _______,     _______, _______, _______,  _______, MEH(KC_T),   _______,   _______,        _______,        _______,    RCTL(KC_SLSH), _______,
+                                   _______, _______, _______,  _______, RCS(KC_ENT), _______,   _______,        _______)
 };
 
 uint8_t mod_state;
@@ -116,7 +127,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         }
-        case LSTR:
+        case LSLTR:
             if (record->event.pressed) {SEND_STRING("ls -ltr");}
             break;
         case GREP:
@@ -125,31 +136,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MVN:
             if (record->event.pressed) {SEND_STRING("mvn clean ");}
             break;
+        case JWB:
+            if (record->event.pressed) {SEND_STRING("JWBIII");}
+            break;
     }
     return true;
 };
 
-enum custom_kc{
-    LSLTR = SAFE_RANGE,
-    GREP,
-    MVN
-}
-
-// Credit: https://github.com/HellSingCoder/qmk_firmware/tree/master/keyboards/sofle/keymaps/HellSingCoder
+// https://github.com/foureight84/qmk_firmware/blob/sofle_foureight84/keyboards/sofle/keymaps/foureight84/keymap.c
 #ifdef OLED_DRIVER_ENABLE
-// KEYBOARD PET START
+/* Animation bit by j-inc https://github.com/qmk/qmk_firmware/tree/master/keyboards/kyria/keymaps/j-inc */
+// WPM-responsive animation stuff here
+#define IDLE_FRAMES 5
+#define IDLE_SPEED 40 // below this wpm value your animation will idle
 
-// settings
+// #define PREP_FRAMES 1 // uncomment if >1
+
+#define TAP_FRAMES 2
+#define TAP_SPEED 60 // above this wpm value typing animation to triggere
+
+#define ANIM_FRAME_DURATION 200 // how long each frame lasts in ms
+// #define SLEEP_TIMER 60000 // should sleep after this period of 0 wpm, needs fixing
+#define ANIM_SIZE 320 // number of bytes in array, minimize for adequate firmware size, max is 1024
+
 #define MIN_WALK_SPEED 10
 #define MIN_RUN_SPEED 40
 
 // advanced settings
-#define ANIM_FRAME_DURATION 200 // how long each frame lasts in ms
-#define ANIM_SIZE 96 // number of bytes in array. If you change sprites, minimize for adequate firmware size. max is 1024
+#define ANIM_LUNA_SIZE 96 // number of bytes in array. If you change sprites, minimize for adequate firmware size. max is 1024
 
-// timers
 uint32_t anim_timer = 0;
 uint32_t anim_sleep = 0;
+uint8_t current_idle_frame = 0;
+// uint8_t current_prep_frame = 0; // uncomment if PREP_FRAMES >1
+uint8_t current_tap_frame = 0;
 
 // current frame
 uint8_t current_frame = 0;
@@ -162,11 +182,123 @@ bool isSneaking = false;
 bool isJumping = false;
 bool showedJump = true;
 
-// logic
+// Implementation credit j-inc(/James Incandenza), pixelbenny, and obosob.
+// Bongo cat images changed and adapted for sofle keyboard oled size.
+// Original gif can be found here: https://www.pixilart.com/art/bongo-cat-bd2a8e9323aa705
+static void render_bongo(void) {
+    static const char PROGMEM idle[IDLE_FRAMES][ANIM_SIZE] = {
+        {
+        0x00, 0xc0, 0x3e, 0x01, 0x00, 0x00, 0x00, 0xc0, 0xfc, 0x03, 0x00, 0x03, 0x0c, 0x30, 0xc0, 0x00,
+        0xe1, 0x1e, 0x00, 0xc0, 0xbc, 0x83, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x3c, 0x03, 0x00, 0x00, 0x00, 0x80, 0x78, 0x87, 0x00, 0x03, 0x0c, 0x30, 0xc0, 0x00, 0xe0, 0x1f,
+        0x01, 0xc0, 0x3c, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x31, 0x05, 0x41, 0x12, 0x04,
+        0x00, 0x00, 0x00, 0x00, 0xf8, 0x87, 0x00, 0x01, 0x06, 0x18, 0x60, 0x80, 0xc0, 0x3f, 0x03, 0x80,
+        0x78, 0x07, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x03, 0x05,
+        0x00, 0x00, 0xf0, 0xcf, 0x00, 0x01, 0x06, 0x18, 0x60, 0x80, 0x80, 0x79, 0x07, 0x80, 0x78, 0x07,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x38, 0x38, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0xe0, 0x1e, 0x01, 0x00, 0x03, 0x0c, 0x30, 0xc0, 0x00, 0xf9, 0x07, 0x80, 0x78, 0x07, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0xc0, 0x2c, 0x32, 0x22, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x07, 0x03, 0x0c, 0x30, 0xc0, 0x00, 0x00, 0xf0, 0x0f, 0x80, 0x78, 0x07, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x18, 0x60, 0x80, 0x00, 0x00, 0xe1, 0x1e, 0x01, 0xf0, 0x8f, 0x80, 0x80, 0x80, 0x00, 0x00, 0x00,
+        0x0e, 0x0e, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x08, 0x08, 0x09, 0x0e, 0x0e, 0x01, 0xf0, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x19,
+        0x19, 0x41, 0x0a, 0x22, 0x84, 0x78, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x60, 0x18,
+        0x00, 0x00, 0x00, 0x00, 0xf0, 0x0f, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+        0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x09, 0x70, 0x80,
+        0x00, 0x00, 0xf0, 0x1f, 0x10, 0x10, 0x10, 0x10, 0x10, 0x08, 0x08, 0x08, 0x04, 0x04, 0x02, 0x02,
+        0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x04, 0x02, 0x01,
+        }
+    };
+    static const char PROGMEM tap[TAP_FRAMES][ANIM_SIZE] = {
+        {
+        0x00, 0xc0, 0x3e, 0x01, 0x00, 0x00, 0x00, 0xc0, 0xfc, 0xff, 0xff, 0xff, 0x7c, 0x70, 0x40, 0x40,
+        0x61, 0x5e, 0x80, 0xc0, 0xbc, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x3c, 0x03, 0x00, 0x00, 0x00, 0x80, 0x78, 0x87, 0x00, 0x03, 0x0f, 0x3f, 0xf8, 0xf0, 0xf0, 0x20,
+        0x40, 0x80, 0x80, 0x00, 0x00, 0x01, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0xf8, 0x87, 0x00, 0x01, 0x06, 0x18, 0x60, 0x80, 0xc0, 0x3f, 0x03, 0x80,
+        0x78, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x04,
+        0x00, 0x00, 0xf0, 0xcf, 0x00, 0x01, 0x06, 0x18, 0x60, 0x80, 0x80, 0x79, 0x07, 0x80, 0x78, 0x07,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x38, 0x38, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0xe0, 0x1e, 0x01, 0x00, 0x03, 0x0c, 0x30, 0xc0, 0x00, 0xf9, 0x07, 0x80, 0x78, 0x07, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0xc0, 0x2c, 0x32, 0x22, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x07, 0x03, 0x0c, 0x30, 0xc0, 0x00, 0x00, 0xf0, 0x0f, 0x80, 0x78, 0x07, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x18, 0x60, 0x80, 0x00, 0x00, 0xe1, 0x1e, 0x01, 0xf0, 0x8f, 0x80, 0x80, 0x80, 0x00, 0x00, 0x00,
+        0x0e, 0x0e, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x08, 0x08, 0x09, 0x0e, 0x0e, 0x01, 0xf0, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x19,
+        0x19, 0x41, 0x0a, 0x22, 0x84, 0x78, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x60, 0x18,
+        0x00, 0x00, 0x00, 0x00, 0xf0, 0x0f, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+        0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x09, 0x70, 0x80,
+        0x00, 0x00, 0xf0, 0x1f, 0x10, 0x10, 0x10, 0x10, 0x10, 0x08, 0x08, 0x08, 0x04, 0x04, 0x02, 0x02,
+        0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x04, 0x02, 0x01,
+        },
+        {
+        0x00, 0xc0, 0x3e, 0x01, 0x00, 0x00, 0x00, 0xc0, 0xfc, 0x03, 0x00, 0x03, 0x0c, 0x30, 0xc0, 0x00,
+        0xe1, 0x1e, 0x00, 0xc0, 0xbc, 0x83, 0x80, 0x80, 0x80, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x3c, 0x03, 0x00, 0x00, 0x00, 0x80, 0x78, 0x87, 0x00, 0x03, 0x0c, 0x30, 0xc0, 0x00, 0xe0, 0x1f,
+        0x01, 0xc0, 0x3c, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x31, 0x05, 0x41, 0x12, 0x04,
+        0x00, 0x00, 0x00, 0x00, 0xf8, 0x87, 0x00, 0x01, 0x06, 0x18, 0x60, 0x80, 0xc0, 0x3f, 0x03, 0x80,
+        0x78, 0x07, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x01, 0x01, 0x03, 0x05,
+        0x00, 0x00, 0xf0, 0xcf, 0x00, 0x01, 0x06, 0x18, 0x60, 0x80, 0x80, 0x79, 0x07, 0x80, 0x78, 0x07,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x38, 0x38, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0xe0, 0xfe, 0xff, 0xff, 0xff, 0xfc, 0xf0, 0xc0, 0x00, 0xf9, 0x07, 0x80, 0x78, 0x07, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0xc0, 0x2c, 0x32, 0x22, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x07, 0x03, 0x0f, 0x3f, 0xff, 0x03, 0x01, 0x03, 0x07, 0x18, 0xf8, 0x07, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x18, 0x60, 0x80, 0x00, 0x0f, 0xf0, 0x00, 0x00, 0x00, 0x00, 0x03, 0x3c, 0x00, 0x00, 0x00, 0x00,
+        0x0e, 0x0e, 0x0e, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x08, 0x08, 0x09, 0x0e, 0x0e, 0x01, 0xf3, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x60, 0x18,
+        0x00, 0x00, 0x00, 0x00, 0xf0, 0x0f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x09, 0x70, 0x80,
+        0x00, 0x00, 0xf0, 0x1f, 0x10, 0x10, 0x10, 0x10, 0x10, 0x08, 0x08, 0x08, 0x04, 0x04, 0x02, 0x02,
+        0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x04, 0x02, 0x01
+        },
+    };
+
+    //assumes 1 frame prep stage
+    void animation_phase(void) {
+        if(get_current_wpm() <=IDLE_SPEED){
+            /*
+            current_idle_frame = (current_idle_frame + 1) % IDLE_FRAMES;
+            oled_write_raw_P(idle[abs((IDLE_FRAMES-1)-current_idle_frame)], ANIM_SIZE);
+            */
+            oled_write_raw_P(idle[0], ANIM_SIZE);
+         }
+         /*
+         if(get_current_wpm() >IDLE_SPEED && get_current_wpm() <TAP_SPEED){
+             // oled_write_raw_P(prep[abs((PREP_FRAMES-1)-current_prep_frame)], ANIM_SIZE); // uncomment if IDLE_FRAMES >1
+             oled_write_raw_P(prep[0], ANIM_SIZE);  // remove if IDLE_FRAMES >1
+         }*/
+         if(get_current_wpm() >=TAP_SPEED){
+             current_tap_frame = (current_tap_frame + 1) % TAP_FRAMES;
+             oled_write_raw_P(tap[abs((TAP_FRAMES-1)-current_tap_frame)], ANIM_SIZE);
+         }
+    }
+    if(get_current_wpm() != 000) {
+        oled_on(); // not essential but turns on animation OLED with any alpha keypress
+        if(timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
+            anim_timer = timer_read32();
+            animation_phase();
+        }
+        anim_sleep = timer_read32();
+    } else {
+        if(timer_elapsed32(anim_sleep) > OLED_TIMEOUT) {
+            oled_off();
+        } else {
+            if(timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
+                anim_timer = timer_read32();
+                animation_phase();
+            }
+        }
+    }
+}
+
 static void render_luna(int LUNA_X, int LUNA_Y) {
 
     // Sit
-    static const char PROGMEM sit[2][ANIM_SIZE] = {
+    static const char PROGMEM sit[2][ANIM_LUNA_SIZE] = {
         // 'sit1', 32x22px
         {
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xe0, 0x1c,
@@ -189,7 +321,7 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
     };
 
     // Walk
-    static const char PROGMEM walk[2][ANIM_SIZE] = {
+    static const char PROGMEM walk[2][ANIM_LUNA_SIZE] = {
         // 'walk1', 32x22px
         {
             0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x40, 0x20, 0x10, 0x90, 0x90, 0x90, 0xa0, 0xc0, 0x80, 0x80,
@@ -212,7 +344,7 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
     };
 
     // Run
-    static const char PROGMEM run[2][ANIM_SIZE] = {
+    static const char PROGMEM run[2][ANIM_LUNA_SIZE] = {
         // 'run1', 32x22px
         {
             0x00, 0x00, 0x00, 0x00, 0xe0, 0x10, 0x08, 0x08, 0xc8, 0xb0, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
@@ -235,7 +367,7 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
     };
 
     // Bark
-    static const char PROGMEM bark[2][ANIM_SIZE] = {
+    static const char PROGMEM bark[2][ANIM_LUNA_SIZE] = {
         // 'bark1', 32x22px
         {
             0x00, 0xc0, 0x20, 0x10, 0xd0, 0x30, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x80, 0x40,
@@ -258,7 +390,7 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
     };
 
     // Sneak
-    static const char PROGMEM sneak[2][ANIM_SIZE] = {
+    static const char PROGMEM sneak[2][ANIM_LUNA_SIZE] = {
         // 'sneak1', 32x22px
         {
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x40, 0x40, 0x40, 0x40, 0x80, 0x00, 0x00, 0x00, 0x00,
@@ -307,19 +439,19 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
 
         // current status
         if(led_usb_state.caps_lock) {
-            oled_write_raw_P(bark[abs(1 - current_frame)], ANIM_SIZE);
+            oled_write_raw_P(bark[abs(1 - current_frame)], ANIM_LUNA_SIZE);
 
         } else if(isSneaking) {
-            oled_write_raw_P(sneak[abs(1 - current_frame)], ANIM_SIZE);
+            oled_write_raw_P(sneak[abs(1 - current_frame)], ANIM_LUNA_SIZE);
 
         } else if(current_wpm <= MIN_WALK_SPEED) {
-            oled_write_raw_P(sit[abs(1 - current_frame)], ANIM_SIZE);
+            oled_write_raw_P(sit[abs(1 - current_frame)], ANIM_LUNA_SIZE);
 
         } else if(current_wpm <= MIN_RUN_SPEED) {
-            oled_write_raw_P(walk[abs(1 - current_frame)], ANIM_SIZE);
+            oled_write_raw_P(walk[abs(1 - current_frame)], ANIM_LUNA_SIZE);
 
         } else {
-            oled_write_raw_P(run[abs(1 - current_frame)], ANIM_SIZE);
+            oled_write_raw_P(run[abs(1 - current_frame)], ANIM_LUNA_SIZE);
         }
     }
 
@@ -339,81 +471,60 @@ static void render_luna(int LUNA_X, int LUNA_Y) {
 
 }
 
-// KEYBOARD PET END
-
-static void print_logo_narrow(void) {
-    // wpm counter
-    char wpm_str[8];
-    oled_set_cursor(0,14);
-    sprintf(wpm_str, " %03d", current_wpm);
-    oled_write(wpm_str, false);
-
-    oled_set_cursor(0,15);
-    oled_write(" wpm", false);
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    return OLED_ROTATION_270;
 }
 
 static void print_status_narrow(void) {
-    oled_set_cursor(0,1);
-
+    oled_set_cursor(0,0);
     switch (get_highest_layer(default_layer_state)) {
         case _QWERTY:
             oled_write("QWRTY", false);
-            break;
-        case _LOWER:
-            oled_write("LOWER", false);
-            break;
-        case _MEDIA:
-            oled_write("MEDIA", false);
             break;
         default:
             oled_write("UNDEF", false);
     }
 
-    oled_set_cursor(0,5);
-
-    // Print current layer
+    oled_set_cursor(0,2);
     oled_write("LAYER", false);
-
-    oled_set_cursor(0,6);
+    oled_set_cursor(0,3);
     oled_write("-----", false);
-    oled_set_cursor(0,7);
+    oled_set_cursor(0,5);
 
     switch (get_highest_layer(layer_state)) {
         case _QWERTY:
-            oled_write("Base", false);
+            oled_write("QWRTY", false);
+            break;
+        case _LOWER:
+            oled_write("Lower", false);
             break;
         case _MEDIA:
             oled_write("Media", false);
             break;
-        case _LOWER:
-            oled_write("lower", false);
+        case _IDEA:
+            oled_write("IDEA", false);
             break;
         default:
             oled_write("Undef", false);
     }
-
-    oled_set_cursor(0,8);
-    oled_write("-----", false);
-
-    // KEYBOARD PET RENDER START
-
-    render_luna(0,13);
-
-    // KEYBOARD PET RENDER END
+    render_luna(0,12);
 }
 
-oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    return OLED_ROTATION_270;
+static void print_logo_narrow(void) {
+    render_bongo();
+
+    // wpm counter
+    char wpm_str[8];
+    oled_set_cursor(0,12);
+    sprintf(wpm_str, " %03d", current_wpm);
+    oled_write(wpm_str, false);
+
+    oled_set_cursor(0,15);
+    oled_write(" WPM", false);
 }
 
 void oled_task_user(void) {
-
-    // KEYBOARD PET VARIABLES START
-
     current_wpm = get_current_wpm();
-    led_usb_state = host_keyboard_led_state();
-
-    // KEYBOARD PET VARIABLES END
 
     if (is_keyboard_master()) {
         print_status_narrow();
