@@ -36,11 +36,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LSFT_T(KC_LCBR), LALT_T(KC_Z),  KC_X,  KC_C,  KC_V,     KC_B,    KC_PGDN, KC_HOME, KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, RSFT_T(KC_RCBR),
                                            MO(1), KC_LCTRL, KC_LGUI, KC_SPC,  KC_ENT,  MO(1),   MO(3),   RGUI(KC_RCTRL)),
   [_LOWER] = LAYOUT(
-    KC_F1,   KC_F2,      KC_F3,      KC_F4,      KC_F5,         KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-    _______, _______,    _______,    _______,    _______,       _______,                   JWB,     _______, _______, _______, _______, TG(2),
-    _______, LGUI(KC_J), LGUI(KC_K), LGUI(KC_L), LGUI(KC_SCLN), _______,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, KC_BSLS,
-    _______, _______,    _______,    _______,    _______,       _______, KC_ENT,  _______, GREP,    MVN,     LSLTR,   _______, _______, _______,
-                                     _______,    _______,       _______, _______, _______, _______, _______, _______),
+    KC_F1,       KC_F2,      KC_F3,      KC_F4,      KC_F5,         KC_F6,                     KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
+    _______,     _______,    _______,    _______,    _______,       _______,                   _______, _______, _______, _______, _______, TG(2),
+    LCA(KC_DEL), LGUI(KC_J), LGUI(KC_K), LGUI(KC_L), LGUI(KC_SCLN), _______,                   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______, KC_BSLS,
+    _______,     _______,    _______,    _______,    _______,       _______, KC_ENT,  _______, _______, _______, _______, _______, _______, _______,
+                                         _______,    _______,       _______, _______, _______, _______, _______, _______),
   [_MEDIA] = LAYOUT(
     _______, _______, _______, _______, _______, _______,                     LCTL(KC_DEL), _______,       KC_I,    _______,       _______, KC_Q,
     _______, _______, _______, _______, _______, _______,                     LSFT(KC_A),   LSFT(KC_PGUP), KC_UP,   LSFT(KC_PGDN), _______, _______,
@@ -48,11 +48,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______,  _______, KC_PAUS,  KC_LT,        KC_GT,         _______, _______,       _______, TG(2),
                                _______, _______, _______,  _______, _______,  _______,      _______,       _______),
   [_IDEA] = LAYOUT(
-    _______, _______, _______,     _______, _______, _______,                        _______,   _______,        _______,        _______,    _______,       _______,
-    _______, _______, _______,     _______, _______, _______,                        RCS(KC_A), RALT(KC_F7),    RALT(KC_ENT),   _______,    _______,       _______,
-    _______, _______, RCS(KC_DEL), _______, _______, _______,                        _______,   _______,        _______,        LCA(KC_L),  _______,       _______,
-    _______, _______, _______,     _______, _______, _______,  _______, MEH(KC_T),   _______,   _______,        _______,        _______,    RCTL(KC_SLSH), _______,
-                                   _______, _______, _______,  _______, RCS(KC_ENT), _______,   _______,        _______)
+    _______, _______, _______,     _______, _______, _______,                        _______,   _______,     _______,      _______,    _______,       _______,
+    _______, _______, _______,     _______, _______, _______,                        RCS(KC_A), RALT(KC_F7), RALT(KC_ENT), _______,    _______,       _______,
+    _______, _______, RCS(KC_DEL), _______, _______, _______,                        JWB,       _______,     _______,      LCA(KC_L),  _______,       _______,
+    _______, _______, _______,     _______, _______, _______,  _______, MEH(KC_T),   GREP,      MVN,         LSLTR,        _______,    RCTL(KC_SLSH), _______,
+                                   _______, _______, _______,  _______, RCS(KC_ENT), _______,   _______,     _______)
 };
 
 // https://github.com/foureight84/qmk_firmware/blob/sofle_foureight84/keyboards/sofle/keymaps/foureight84/keymap.c
@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #define ANIM_FRAME_DURATION 200 // how long each frame lasts in ms
 // #define SLEEP_TIMER 60000 // should sleep after this period of 0 wpm, needs fixing
-#define ANIM_SIZE 320 // number of bytes in array, minimize for adequate firmware size, max is 1024
+#define ANIM_SIZE 320 // number of bytes in array, mini          mize for adequate firmware size, max is 1024
 
 #define MIN_WALK_SPEED 10
 #define MIN_RUN_SPEED 40

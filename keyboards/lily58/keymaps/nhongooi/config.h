@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define USE_SERIAL_PD2
 
-#define TAPPING_TERM 125
+#define TAPPING_TERM 140
 
 #define OLED_TIMEOUT 120000
 #define OLED_BRIGHTNESS 120
