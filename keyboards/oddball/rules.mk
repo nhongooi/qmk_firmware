@@ -19,8 +19,10 @@ AUDIO_ENABLE = no           # Audio output
 
 SPLIT_KEYBOARD = yes
 POINTING_DEVICE_ENABLE = yes
+AUTO_SHIFT_ENABLE = yes
+DEBOUNCE_TYPE = sym_eager_pr
 
-DEFAULT_FOLDER = oddball/v1
+DEFAULT_FOLDER = oddball/v2_1
 
 SRC += spi_master.c
 SRC += drivers/sensors/adns9800.c
