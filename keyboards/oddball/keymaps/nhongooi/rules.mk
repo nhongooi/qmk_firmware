@@ -1,0 +1,3 @@
+
+DEBOUNCE_TYPE = sym_defer_g
+AUTO_SHIFT_ENABLE = yes

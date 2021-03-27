@@ -45,8 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_COL_PINS \
     { D4, C6, D7, E6, B4, B5 }
 #define UNUSED_PINS
-#define TAPPING_TERM 135
-
+#define TAPPING_TERM 130
 /* COL2ROW, ROW2COL*/
 #define DIODE_DIRECTION COL2ROW
 
@@ -93,13 +92,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* define if matrix has ghost (lacks anti-ghosting diodes) */
 //#define MATRIX_HAS_GHOST
 
-/* Mechanical locking support. Use KC_LCAP, KC_LNUM or KC_LSCR instead in keymap */
-#define LOCKING_SUPPORT_ENABLE
 /* Locking resynchronize hack */
 #define LOCKING_RESYNC_ENABLE
-#define AUTO_SHIFT_MODIFIERS
-#define AUTO_SHIFT_TIMEOUT 135
-#define AUTO_SHIFT_NO_AUTO_REPEAT
 
 /* If defined, GRAVE_ESC will always act as ESC when CTRL is held.
  * This is userful for the Windows task manager shortcut (ctrl+shift+esc).
