@@ -1,3 +1,2 @@
-
-DEBOUNCE_TYPE = sym_defer_g
 AUTO_SHIFT_ENABLE = yes
+DEBOUNCE_TYPE = sym_eager_pk
