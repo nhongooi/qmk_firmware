@@ -23,16 +23,44 @@ enum layer_names {
     _RPG
 };
 
-#define LOWER  MO(_LOWER)
-#define RAISE  MO(_RAISE)
-#define ADJUST MO(_ADJUST)
-#define RPG    TG(_RPG)
+#define LOWER     MO(_LOWER)
+#define RAISE     MO(_RAISE)
+#define ADJUST    MO(_ADJUST)
+#define RPG       TG(_RPG)
+#define MOUSE     LT(_MOUSE, KC_MINS)
+#define MEDIA     TG(_MEDIA)
+#define GUIDEL    LGUI_T(KC_BSPC)
+#define CTLTAB    LCTL_T(KC_TAB)
+#define SFTTAB    LSFT_T(KC_TAB)
+#define ALTZ      LALT_T(KC_Z)
+#define MOVEL     LGUI(KC_J)
+#define MOVED     LGUI(KC_K)
+#define MOVEU     LGUI(KC_L)
+#define MOVER     LGUI(KC_SCLN)
+#define WORK1     LGUI(KC_1)
+#define WORK2     LGUI(KC_2)
+#define WORK3     LGUI(KC_3)
+#define WORK4     LGUI(KC_4)
+#define LTAB      RCS(KC_TAB)
+#define RTAB      RCTL(KC_TAB)
+#define WBACK     LALT(KC_LEFT)
+#define WFORWARD  LALT(KC_RIGHT)
+#define RMTAB     LCTL(KC_W)
+#define RESTAB    RCS(KC_T)
+#define WINTERM   LCTL(KC_1)
+#define MPVDEL    LCTL(KC_DEL)
+#define MPVRATIO  LSFT(KC_A)
+#define NARCHIVE  LSFT(KC_PGUP)
+#define PARCNIVE  LSFT(KC_PGDN)
+#define COPY      LCTL(KC_C)
+#define PASTE     LCTL(KC_V)
+#define CUT       LCTL(KC_X)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_reviung41(
     LCTL_T(KC_TAB),  KC_Q,             KC_W,     KC_E,     KC_R,      KC_T,               KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_QUOT,
     KC_BSPC,         KC_A,             KC_S,     KC_D,     KC_F,      KC_G,               KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_MINS,
-    KC_LSFT,         LALT_T(KC_Z),     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_SFTENT,
+    KC_LSFT,         LALT_T(KC_Z),     KC_X,     KC_C,     KC_V,      KC_B,               KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_ENT,
                                                            KC_LGUI,   LOWER,    KC_SPC,   RAISE,    RSFT_T(KC_RCBR)
   ),
   [_LOWER] = LAYOUT_reviung41(
@@ -52,6 +80,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  _______,  _______,  _______,  _______,   _______,            KC_X,     KC_LEFT,  KC_DOWN,  KC_RGHT,  _______,   KC_Z,
     _______,  _______,  _______,  _______,  _______,   _______,            _______,  _______,  _______,  _______,  _______,   KC_RSFT,
                                             _______,   _______,  KC_ENT,   _______,  RPG
+  ),
+    [_MEDIA] = LAYOUT(
+     _______,  _______, _______, _______, _______,  _______,        MPVDEL,     KC_LT,       KC_I,       KC_GT,      KC_Q,    MEDIA,
+     _______,  _______, _______, _______, _______,  _______,        MPVRATIO,   NARCHIVE,    KC_UP,      PARCNIVE,   KC_DEL,  _______,
+     _______,  _______, _______, _______, _______,  _______,        KC_HOME,    KC_LEFT,     KC_DOWN,    KC_RIGHT,   KC_END,  _______,
+                                          _______,  _______,        _______,    _______
   ),
   [_ADJUST] = LAYOUT_reviung41(
     RGB_VAI,   RGB_SAI, RGB_HUI,  RGB_MOD,  XXXXXXX,   RGB_TOG,            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
