@@ -17,12 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#undef DEBOUNCE
-#define DEBOUNCE 0
-
 // Pick good defaults for enabling homerow modifiers
-#define TAPPING_TERM 140
+#define TAPPING_TERM 180
 #define PERMISSIVE_HOLD
-#define TAPPING_FORCE_HOLD
-#define AUTO_SHIFT_TIMEOUT 155
-#define IGNORE_MOD_TAP_INTERRUPT
+#define AUTO_SHIFT_TIMEOUT 220
