@@ -18,6 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 // Pick good defaults for enabling homerow modifiers
-#define TAPPING_TERM 180
-#define PERMISSIVE_HOLD
-#define AUTO_SHIFT_TIMEOUT 220
+#undef TAPPING_TERM
+#define TAPPING_TERM 150
+#define AUTO_SHIFT_TIMEOUT 180
+#define IGNORE_MOD_TAP_INTERRUPT
