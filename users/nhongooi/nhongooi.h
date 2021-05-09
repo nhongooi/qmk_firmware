@@ -31,6 +31,7 @@ enum layers {
 #define SPCLW     LT(_LOWER, KC_SPACE)
 #define RETRS     LT(_RAISE, KC_ENT)
 #define TABLM     LT(_LMISC, KC_TAB)
+#define LMLW      LM(_LOWER, MOD_LSFT)
 // Toggle layers
 #define MEDIA     TG(_MEDIA)
 #define RPG       TG(_RPG)
@@ -61,6 +62,15 @@ enum layers {
 #define COPY      RCTL(KC_C)
 #define CUT       RCTL(KC_X)
 #define PASTE     RCTL(KC_V)
+#define LTAB      RCS(KC_TAB)
+#define RTAB      RCTL(KC_TAB)
+#define WBACK     LALT(KC_LEFT)
+#define WFORWARD  LALT(KC_RIGHT)
+#define RMTAB     LCTL(KC_W)
+#define RESTAB    RCS(KC_T)
+#define CONEMU    LCTL(KC_1)
+#define NEWTAB    LCTL(KC_T)
+
 
 #if defined _10
 
@@ -95,7 +105,7 @@ enum layers {
 
 #if defined THUMB_6
 
-#define QWERTY_T    KC_BSPC, TABLM,    SPCLW, RETRS, KC_BSPC,  KC_GESC
+#define QWERTY_T    LMLW,    TABLM,    SPCLW, RETRS, KC_BSPC,  KC_GESC
 #define NUM_T       _______, KC_DOT,   KC_0
 #define RPG_T       KC_ENT,  _______,  RPG
 #define MEDIA_T     _______, KC_LT,    MEDIA
