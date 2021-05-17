@@ -121,6 +121,7 @@ enum layers {
 #define NUM_T       KC_DOT,  KC_0
 #define RPG_T       KC_ENT,  RPG
 #define MEDIA_T     _______, MEDIA
+#define LMISC_T     _______, KC_RPRN
 #define TRANS_S     _______, _______
 #define TRANS_W     _______, _______,  _______, _______
 

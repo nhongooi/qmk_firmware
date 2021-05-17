@@ -26,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LMISC_1,
     LMISC_2,
     LMISC_3,
-    TRANS_W
+    TRANS_S, LMISC_T
 
   ),
   [_RPG] = LAYOUT_ferris_wrapper(
