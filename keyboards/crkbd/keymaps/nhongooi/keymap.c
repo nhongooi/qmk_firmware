@@ -14,38 +14,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     I3_1,    NUM_1,
     I3_2,    NUM_2,
     I3_3,    NUM_3,
-    TRANS3,  NUM_T
+    TRANS_S, NUM_T
   ),
   [_RAISE] = LAYOUT_fifi_wrapper(
     FUCT_1,  RASSIT_1,
     FUCT_2,  RASSIT_2,
     FUCT_3,  RASSIT_3,
-    TRANS6
+    TRANS_W
   ),
   [_LMISC] = LAYOUT_fifi_wrapper(
-    NEWTAB, LTAB,    RMTAB,   RTAB,     RESTAB,                _______, _______, _______, _______,  _______,
-    REDO,    CUT,     COPY,    PASTE,    UNDO,          _______, _______, _______, _______,  _______,
-    _______, _______, _______, _______,  CONEMU,       _______, _______, _______, _______,  _______,
-                      _______, _______,  _______,       _______, _______,  _______
+    LMISC_1,
+    LMISC_2,
+    LMISC_3,
+    TRANS_W
 
   ),
   [_RPG] = LAYOUT_fifi_wrapper(
     RPG_1,
     RPG_2,
     RPG_3,
-    TRANS3, RPG_T
+    TRANS_S, RPG_T
   ),
   [_MEDIA] = LAYOUT_fifi_wrapper(
     MEDIA_1,
     MEDIA_2,
     MEDIA_3,
-    TRANS3, MEDIA_T
+    TRANS_S, MEDIA_T
   ),
   [_ADJUST] = LAYOUT_fifi_wrapper(
     ADJ_1,
     ADJ_2,
     ADJ_3,
-    TRANS6
+    TRANS_W
   )
 };
 
