@@ -21,11 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #define MASTER_RIGHT
-#define SSD1306OLED
 
 #define USE_SERIAL_PD2
-
+#undef TAPPING_TERM
 #define TAPPING_TERM 140
-
-#define OLED_TIMEOUT 120000
-#define OLED_BRIGHTNESS 120

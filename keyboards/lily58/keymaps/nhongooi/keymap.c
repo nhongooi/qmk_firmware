@@ -1,16 +1,5 @@
 #include QMK_KEYBOARD_H
 
-#ifdef PROTOCOL_LUFA
-  #include "lufa.h"
-  #include "split_util.h"
-#endif
-
-#ifdef OLED_DRIVER_ENABLE
-#include <stdio.h>
-
-#endif
-
-
 extern uint8_t is_master;
 
 enum layer_number {
