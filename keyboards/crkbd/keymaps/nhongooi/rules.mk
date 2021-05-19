@@ -1,5 +1,5 @@
-MOUSEKEY_ENABLE = no       # Mouse keys
-TAP_DANCE_ENABLE = no
+MOUSEKEY_ENABLE = yes       # Mouse keys
+TAP_DANCE_ENABLE = yes
 POINTING_DEVICE_ENABLE := yes
 OPT_DEFS += -DPIMORONI_TRACKBALL_ENABLE
 SRC += pimoroni_trackball.c

@@ -42,3 +42,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   }
 
 #define LAYOUT_fifi_wrapper(...) LAYOUT_split_3x5_3(__VA_ARGS__)
+
+#define MOUSEKEY_DELAY 0
+#define MOUSEKEY_INTERVAL 28
