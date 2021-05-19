@@ -17,9 +17,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define EE_HANDS
+#define MASTER_RIGHT
 #define THUMB_6
 #define _10
+
+// trackball
+#define USE_SERIAL
 
 #define LAYOUT_split_3x5_3( \
   L00, L01, L02, L03, L04,           R00, R01, R02, R03, R04, \
