@@ -96,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      _______,  _______, _______, _______, _______,  _______,        XXXXXXX,  XXXXXXX,  RMTAB,    RESTAB,   KC_SCROLL,   KC_SPC,
      _______,  _______, _______, _______, _______,  _______,        KC_BTN1,  KC_BTN2,  KC_BTN3,  WBACK,    WFORWARD,    XXXXXXX,
      _______,  _______, _______, _______, _______,  _______,        LTAB,     RTAB,     COPY,     PASTE,    CUT,         _______,
-                                          _______,  _______,        _______,  _______
+                                          _______,  _______,        _______,  _______z
   ),
   [_ADJUST] = LAYOUT(
     XXXXXXX, XXXXXXX, RESET,   XXXXXXX, XXXXXXX,XXXXXXX,      MEDIA,   RPG,     XXXXXXX, XXXXXXX, XXXXXXX,KC_CPI_1,

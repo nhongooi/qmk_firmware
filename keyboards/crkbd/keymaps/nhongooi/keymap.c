@@ -21,15 +21,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "nhongooi.h"
 
-enum custom_keycodes {
-  BALL_NCL,//left click
-  BALL_RCL,//right click
-  BALL_MCL,//middle click
-};
+#define PMOUSE  LT(_MOUSE, KC_P)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_fifi_wrapper(
-    QWERTY_1,
+    KC_Q,  KC_W,   KC_E,   KC_R,   KC_T,  KC_Y,  KC_U,  KC_I,    KC_O,   PMOUSE,
     QWERTY_2,
     QWERTY_3,
     QWERTY_T
@@ -65,6 +61,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     MEDIA_3,
     TRANS_S, MEDIA_T
   ),
+  [_MOUSE] = LAYOUT_fifi_wrapper(
+   _______, _______, _______, _______,  _______,                        _______,    _______,  _______,  _______,  _______,
+   _______, _______, _______, _______,  _______,                        _______,    _______,  _______,  _______,  _______,
+   _______, _______, _______, _______,  _______,                        _______,    _______,  _______,  _______,  _______,
+                     _______, _______,  _______,                        TD(MS_BT),  _______,  _______
+  ),
   [_ADJUST] = LAYOUT_fifi_wrapper(
     ADJ_1,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,        KC_ACL0,  KC_ACL1, KC_ACL2, XXXXXXX, XXXXXXX,
@@ -75,19 +77,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record){
-  switch (keycode){
-  case BALL_NCL:
-     record->event.pressed?register_code(KC_BTN1):unregister_code(KC_BTN1);
-     break;
-  case BALL_RCL:
-      record->event.pressed?register_code(KC_BTN2):unregister_code(KC_BTN2);
-      break;
-  case BALL_MCL:
-      record->event.pressed?register_code(KC_BTN3):unregister_code(KC_BTN3);
-      break;
-  }
-  return true;
 }

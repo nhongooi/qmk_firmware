@@ -19,6 +19,7 @@
 #include "quantum.h"
 #include "pointing_device.h"
 
+
 #ifndef TRACKBALL_ADDRESS
 #    define TRACKBALL_ADDRESS 0x0A
 #endif
@@ -33,3 +34,30 @@ float trackball_get_precision(void);
 void    trackball_set_precision(float precision);
 bool    trackball_is_scrolling(void);
 void    trackball_set_scrolling(bool scroll);
+
+typedef enum {
+    TD_NONE,
+    TD_UNKNOWN,
+    TD_SINGLE_TAP,
+    TD_SINGLE_HOLD,
+    TD_DOUBLE_TAP,
+    TD_DOUBLE_HOLD,
+    TD_DOUBLE_SINGLE_TAP, // Send two single taps
+    TD_TRIPLE_TAP,
+    TD_TRIPLE_HOLD
+} td_state_t;
+
+typedef struct {
+    bool is_press_action;
+    td_state_t state;
+} td_tap_t;
+
+// Tap dance enums
+enum {
+    MS_BT
+};
+
+td_state_t cur_dance(qk_tap_dance_state_t *state);
+// For the x tap dance. Put it here so it can be used in any keymap
+void mouse_finished(qk_tap_dance_state_t *state, void *user_data);
+void mouse_reset(qk_tap_dance_state_t *state, void *user_data);

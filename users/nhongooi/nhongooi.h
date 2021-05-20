@@ -12,6 +12,7 @@ enum layers {
   _MEDIA,
   _LMISC,
   _RPG,
+  _MOUSE,
   _ADJUST
 };
 
