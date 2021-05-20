@@ -1,5 +1,5 @@
 /*
-Copyright 2020 Pierre Chevalier <pierrechevalier83@gmail.com>
+Copyright 2021 @mangoiv
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,6 +42,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   }
 
 #define LAYOUT_fifi_wrapper(...) LAYOUT_split_3x5_3(__VA_ARGS__)
-
-#define MOUSEKEY_DELAY 0
-#define MOUSEKEY_INTERVAL 28
