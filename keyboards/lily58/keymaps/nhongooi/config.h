@@ -20,8 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define MASTER_RIGHT
+#define MASTER_LEFT
 
 #define USE_SERIAL_PD2
 #undef TAPPING_TERM
 #define TAPPING_TERM 140
+
+#ifdef THUMBSTICK_ENABLE
+#    define THUMBSTICK_FLIP_X
+#    define THUMBSTICK_PIN_X D7
+#    define THUMBSTICK_PIN_Y B4
+#endif
