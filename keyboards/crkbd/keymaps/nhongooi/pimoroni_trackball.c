@@ -290,9 +290,6 @@ void pointing_device_task(void) {
         case _ADJUST:
             trackball_set_rgbw(255,0,0,0);
             break;
-        case _MOUSE:
-            trackball_set_rgbw(0,128,255,0);
-            break;
         default:
             trackball_set_rgbw(0,0,0,0);
     }

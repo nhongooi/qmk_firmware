@@ -21,14 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config.h"
 #include "nhongooi.h"
 
-#define PMOUSE  LT(_MOUSE, KC_P)
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_fifi_wrapper(
-    KC_Q,  KC_W,   KC_E,   KC_R,   KC_T,  KC_Y,  KC_U,  KC_I,    KC_O,   PMOUSE,
+    QWERTY_1,
     QWERTY_2,
     QWERTY_3,
     QWERTY_T
+
   ),
   [_LOWER] = LAYOUT_fifi_wrapper(
     I3_1,    NUM_1,
@@ -61,20 +60,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     MEDIA_3,
     TRANS_S, MEDIA_T
   ),
-  [_MOUSE] = LAYOUT_fifi_wrapper(
-   _______, _______, _______, _______,  _______,                        _______,    _______,  _______,  _______,  _______,
-   _______, _______, _______, _______,  _______,                        _______,    _______,  _______,  _______,  _______,
-   _______, _______, _______, _______,  _______,                        _______,    _______,  _______,  _______,  _______,
-                     _______, _______,  _______,                        TD(MS_BT),  _______,  _______
-  ),
   [_ADJUST] = LAYOUT_fifi_wrapper(
     ADJ_1,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,        KC_ACL0,  KC_ACL1, KC_ACL2, XXXXXXX, XXXXXXX,
+    ADJ_2,
     ADJ_3,
     TRANS_W
   )
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (get_highest_layer(state)) {
+        case _LOWER:
+            DRV_pulse(buzz_60);
+            break;
+        case _RAISE:
+            DRV_pulse(pulsing_medium_80);
+            break;
+        case _MEDIA:
+            DRV_pulse(transition_click_40);
+            break;
+        case _RPG:
+            DRV_pulse(transition_hum_60);
+            break;
+        case _LMISC:
+            DRV_pulse(lg_dblsharp_tick);
+            break;
+    }
+    return state;
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
