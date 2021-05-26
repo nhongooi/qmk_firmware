@@ -26,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     QWERTY_1,
     QWERTY_2,
     QWERTY_3,
-    QWERTY_T
+    TD(MS_BT),    TABLM,    SPCLW, RETRS, KC_BSPC,  KC_GESC
 
   ),
   [_LOWER] = LAYOUT_fifi_wrapper(
@@ -69,23 +69,5 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    switch (get_highest_layer(state)) {
-        case _LOWER:
-            DRV_pulse(buzz_60);
-            break;
-        case _RAISE:
-            DRV_pulse(pulsing_medium_80);
-            break;
-        case _MEDIA:
-            DRV_pulse(transition_click_40);
-            break;
-        case _RPG:
-            DRV_pulse(transition_hum_60);
-            break;
-        case _LMISC:
-            DRV_pulse(lg_dblsharp_tick);
-            break;
-    }
-    return state;
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }

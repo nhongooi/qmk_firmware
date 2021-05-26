@@ -42,19 +42,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   }
 
 #define LAYOUT_fifi_wrapper(...) LAYOUT_split_3x5_3(__VA_ARGS__)
-
-/* Haptic Driver initialization settings
- * Feedback Control Settings */
-#define FB_ERM_LRA 1 /* For ERM:0 or LRA:1*/
-#define FB_BRAKEFACTOR 6 /* For 1x:0, 2x:1, 3x:2, 4x:3, 6x:4, 8x:5, 16x:6, Disable Braking:7 */
-#define FB_LOOPGAIN 1 /* For  Low:0, Medium:1, High:2, Very High:3 */
-/* default 2V LRA voltage and library */
-#if FB_ERM_LRA == 1
-#define RATED_VOLTAGE 2
-#define V_RMS 2.0
-#define V_PEAK 2.85
-#define F_LRA 200
-/* Library Selection */
-#define LIB_SELECTION 6 /* For Empty:0' TS2200 library A to D:1-5, LRA Library: 6 */
-#define DRV_GREETING alert_750ms
-#endif
