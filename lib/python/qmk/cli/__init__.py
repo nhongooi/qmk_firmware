@@ -155,6 +155,7 @@ from . import chibios  # noqa
 from . import clean  # noqa
 from . import compile  # noqa
 from milc.subcommand import config  # noqa
+from . import console  # noqa
 from . import docs  # noqa
 from . import doctor  # noqa
 from . import fileformat  # noqa
