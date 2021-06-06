@@ -291,7 +291,7 @@ void pointing_device_task(void) {
             trackball_set_rgbw(255,0,0,0);
             break;
         default:
-            trackball_set_rgbw(0,0,0,0);
+            trackball_set_rgbw(0,153,95,0);
     }
 
 

@@ -125,8 +125,8 @@ enum layers {
 #define FUCT_2      _______, _______, KC_F5,   KC_F6,   KC_F7,   KC_F8
 #define FUCT_3      _______, _______, KC_F9,   KC_F10,  KC_F11,  KC_F12
 #define RPG_1       _______, _______, _______, _______,  _______,        KC_LCTL,  KC_X,     KC_UP,    KC_S,     KC_RSFT
-#define RPG_2       _______, _______, _______, _______,  _______,        KC_SPC,   KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_Z
-#define RPG_3       _______, _______, _______, _______,  _______,        _______,  _______,  _______,  _______,  _______
+#define RPG_2       _______, _______, _______, _______,  _______,        KC_SPC,   KC_LEFT,  KC_DOWN,  KC_RGHT,  _______
+#define RPG_3       _______, _______, _______, _______,  _______,        KC_RET,   _______,  _______,  _______,  RPG
 #define MEDIA_1     _______, _______, _______, _______,  _______,        MPVDEL,     KC_F,  KC_I,    KC_SPC,    KC_Q
 #define MEDIA_2     _______, _______, _______, _______,  _______,        MPVRATIO,   KC_9,     KC_UP,   KC_0,      KC_DEL
 #define MEDIA_3     _______, _______, _______, _______,  _______,        KC_HOME,    KC_LEFT,  KC_DOWN, KC_RIGHT,  KC_END
@@ -153,7 +153,7 @@ enum layers {
 
 #define QWERTY_T    TABLM,   SPCLW, RETRS, KC_BSPC
 #define NUM_T       KC_DOT,  KC_0
-#define RPG_T       KC_ENT,  RPG
+#define RPG_T       KC_Z,  KC_X
 #define MEDIA_T     _______, MEDIA
 #define LMISC_T     _______, KC_RPRN
 #define TRANS_S     _______, _______
