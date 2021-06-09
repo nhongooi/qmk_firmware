@@ -16,8 +16,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
+
+#ifdef POINTING_DEVICE_ENABLE
 #include "pimoroni_trackball.h"
 #include "pointing_device.h"
+#endif
+
+#ifdef HAPTIC_ENABLE
+#include "haptic.h"
+#endif
+
 #include "nhongooi.h"
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -47,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         LMISC_2,
         LMISC_3,
         _______, _______,
-        TRANS_W
+        TRANS_S, _______,   _______, KC_RIGHT_PAREN
     ),
     [_ADJUST] =  LAYOUT_wrapper(
         ADJ_1,
@@ -59,20 +67,42 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+#ifdef HAPTIC_ENABLE
+    switch (get_highest_layer(layer_state)) {
+        case _QWERTY:
+            DRV_pulse(buzz_20);
+            break;
+        case _LOWER:
+            DRV_pulse(soft_fuzz);
+            break;
+        case _RAISE:
+            DRV_pulse(sharp_tick1);
+            break;
+        case _ADJUST:
+            DRV_pulse(lg_dblclick_str_30);
+            break;
+    }
+#endif
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
 
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef HAPTIC_ENABLE
+    if (get_mods() & MOD_MASK_GUI){
+      DRV_pulse(sharp_click_60);
+    }
+#endif
+  return true;
+}
+
 #ifdef ENCODER_ENABLE
 void encoder_update_user(uint8_t index, bool clockwise) {
+    //LEFT
     if (index == 0) {
       switch (get_highest_layer(layer_state)) {
         case _LOWER:
-          register_code(KC_LCTL);
-          clockwise?tap_code(KC_RIGHT):tap_code(KC_LEFT);
-          unregister_code(KC_LCTL);
-          break;
-        case _RAISE:
           register_code(KC_LALT);
           clockwise?tap_code(KC_F):tap_code(KC_B);
           unregister_code(KC_LALT);
@@ -82,6 +112,7 @@ void encoder_update_user(uint8_t index, bool clockwise) {
           break;
       }
     }
+    //RIGHT
     else if (index == 2) {
       switch (get_highest_layer(layer_state)) {
         case _LOWER:
@@ -92,7 +123,9 @@ void encoder_update_user(uint8_t index, bool clockwise) {
             unregister_code(KC_LGUI);
             break;
         default:
-            clockwise?tap_code(KC_PGDN):tap_code(KC_PGUP);
+            register_code(KC_LCTL);
+            clockwise?tap_code(KC_RIGHT):tap_code(KC_LEFT);
+            unregister_code(KC_LCTL);
             break;
       }
     }

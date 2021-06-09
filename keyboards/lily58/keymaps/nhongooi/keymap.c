@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H
-
+#include "analog.h"
 extern uint8_t is_master;
 
 enum layer_number {

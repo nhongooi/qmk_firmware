@@ -1,5 +1,5 @@
 #include "thumbstick.h"
-
+#include "analog.h"
 void thumbstick_init(void) {
     thumbstickTimer       = 0;
     thumbstickScrollTimer = 0;

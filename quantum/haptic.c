@@ -288,6 +288,49 @@ void haptic_play(void) {
 #endif
 }
 
+bool process_haptic(uint16_t keycode, keyrecord_t *record) {
+    if (keycode == HPT_ON && record->event.pressed) {
+        haptic_enable();
+    }
+    if (keycode == HPT_OFF && record->event.pressed) {
+        haptic_disable();
+    }
+    if (keycode == HPT_TOG && record->event.pressed) {
+        haptic_toggle();
+    }
+    if (keycode == HPT_RST && record->event.pressed) {
+        haptic_reset();
+    }
+    if (keycode == HPT_FBK && record->event.pressed) {
+        haptic_feedback_toggle();
+    }
+    if (keycode == HPT_BUZ && record->event.pressed) {
+        haptic_buzz_toggle();
+    }
+    if (keycode == HPT_MODI && record->event.pressed) {
+        haptic_mode_increase();
+    }
+    if (keycode == HPT_MODD && record->event.pressed) {
+        haptic_mode_decrease();
+    }
+    if (keycode == HPT_DWLI && record->event.pressed) {
+        haptic_dwell_increase();
+    }
+    if (keycode == HPT_DWLD && record->event.pressed) {
+        haptic_dwell_decrease();
+    }
+    if (keycode == HPT_CONT && record->event.pressed) {
+        haptic_toggle_continuous();
+    }
+    if (keycode == HPT_CONI && record->event.pressed) {
+        haptic_cont_increase();
+    }
+    if (keycode == HPT_COND && record->event.pressed) {
+        haptic_cont_decrease();
+    }
+    return true;
+}
+
 void haptic_shutdown(void) {
 #ifdef SOLENOID_ENABLE
     solenoid_shutdown();
