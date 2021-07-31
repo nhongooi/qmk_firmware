@@ -30,7 +30,8 @@ void set_mac_mode(bool macmode) {
     eeconfig_update_keymap(keymap_config.raw);
 }
 
-bool dip_switch_update_kb(uint8_t index, bool active) {
+#ifdef DIP_SWITCH_ENABLE
+void dip_switch_update_kb(uint8_t index, bool active) {
     switch (index) {
     case 0:
         if(active) { // Left no.1  Helix rev3 common
@@ -45,3 +46,4 @@ bool dip_switch_update_kb(uint8_t index, bool active) {
     }
     return true;
 }
+#endif
