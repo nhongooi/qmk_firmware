@@ -12,6 +12,7 @@ enum layers {
   _MEDIA,
   _LMISC,
   _RPG,
+  _TYPE,
   _ADJUST
 };
 
@@ -36,6 +37,7 @@ enum layers {
 // Toggle layers
 #define MEDIA     TG(_MEDIA)
 #define RPG       TG(_RPG)
+#define TYPEL     TG(_TYPE)
 #define MPVDEL    LCTL(KC_DEL)
 #define MPVRATIO  LSFT(KC_A)
 #define NARCHIVE  LSFT(KC_PGUP)
@@ -80,7 +82,7 @@ enum layers {
 #define CLEANTERM      LCTL(KC_U)
 #define CLEANAFTER     LALT(KC_D)
 #define TERMPASTE      RCS(KC_V)
-
+#define READ      LCA(KC_R)
 
 
 #if defined _10
@@ -88,7 +90,7 @@ enum layers {
 #define QWERTY_1    KC_Q,  KC_W,   KC_E,   KC_R,   KC_T,  KC_Y,  KC_U,  KC_I,    KC_O,   KC_P
 #define QWERTY_2    LGUIA, LSHFS,  LCTLD,  LALTF,  KC_G,  KC_H,  RALTJ, RCTLK,   RSHFL,  RGUICOL
 #define QWERTY_3    KC_Z,  KC_X,   KC_C,   KC_V,   KC_B,  KC_N,  KC_M,  KC_COMM, KC_DOT, KC_SLSH
-#define I3_1        DMENU,   BWORD,   _______, NWORD,    _______
+#define I3_1        DMENU,   BWORD,   TERMB,   NWORD,    TERMF
 #define I3_2        WINTOG,  FCSL,    FCSD,    FCSU,     FCSR
 #define I3_3        QUIT,    WORK1,   WORK2,   WORK3,    WORK4
 #define NUM_1       KC_LBRC, KC_7,    KC_8,    KC_9,     KC_RBRC
@@ -96,7 +98,7 @@ enum layers {
 #define NUM_3       KC_MINUS,KC_1,    KC_2,    KC_3,     KC_BSLASH
 #define RASSIT_1    KC_PGUP, KC_HOME, KC_CUT,  KC_COPY,  KC_PSTE
 #define RASSIT_2    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  KC_BSLASH
-#define RASSIT_3    KC_PGDN, KC_END,  KC_DEL,   _______, KC_GRAVE
+#define RASSIT_3    KC_PGDN, KC_END,  KC_DEL,  MPVDEL,   KC_GRAVE
 #define FUCT_1      KC_ESC,  KC_F1,   KC_F2,   KC_F3,    KC_F4
 #define FUCT_2      _______, KC_F5,   KC_F6,   KC_F7,    KC_F8
 #define FUCT_3      _______, KC_F9,   KC_F10,  KC_F11,   KC_F12
@@ -106,12 +108,12 @@ enum layers {
 #define MEDIA_1     _______, _______, _______, _______,  _______,        MPVDEL,   KC_F,    KC_I,     KC_SPC,   KC_Q
 #define MEDIA_2     _______, _______, _______, _______,  _______,        MPVRATIO, KC_9,    KC_UP,    KC_0,     KC_DEL
 #define MEDIA_3     _______, _______, _______, _______,  _______,        KC_HOME,  KC_LEFT, KC_DOWN,  KC_RIGHT, KC_END
-#define ADJ_1       XXXXXXX, MOVE1,   MOVE2,   MOVE3,    MOVE4,          RPG,      MEDIA,   XXXXXXX,  XXXXXXX,  XXXXXXX
-#define ADJ_2       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,        BWORD,    XXXXXXX, XXXXXXX,  NWORD,    XXXXXXX
+#define ADJ_1       XXXXXXX, MOVE1,   MOVE2,   MOVE3,    MOVE4,          RPG,      MEDIA,   TYPEL,     XXXXXXX,  XXXXXXX
+#define ADJ_2       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,        BWORD,    XXXXXXX, XXXXXXX,  XXXXXXX,    XXXXXXX
 #define ADJ_3       RESET,   XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,        XXXXXXX,  XXXXXXX, XXXXXXX,  XXXXXXX,  XXXXXXX
-#define LMISC_1     RESTAB,  LTAB,    RMTAB,   RTAB,    NEWTAB,          KC_LCBR,  KC_AMPR, KC_ASTR,  KC_LPRN,  KC_RCBR
+#define LMISC_1     RESTAB,  LTAB,    RMTAB,   RTAB,    READ,            KC_LCBR,  KC_AMPR, KC_ASTR,  KC_LPRN,  KC_RCBR
 #define LMISC_2     UNDO,    CUT,     COPY,    PASTE,   REDO,            KC_DQT,   KC_DLR,  KC_PERC,  KC_CIRC,  KC_PLUS
-#define LMISC_3     _______, TERMB,   TERMDEL, TERMF,   CONEMU,          KC_UNDS,  KC_EXLM, KC_AT,    KC_HASH,  KC_PIPE
+#define LMISC_3     _______, KC__VOLDOWN,   KC_MUTE, KC__VOLUP,   CONEMU,          KC_UNDS,  KC_EXLM, KC_AT,    KC_HASH,  KC_PIPE
 #elif defined _12
 
 #define QWERTY_1    CTLTAB,   KC_Q,  KC_W,   KC_E,   KC_R,   KC_T,  KC_Y,  KC_U,  KC_I,    KC_O,   KC_P,    KC_QUOT
@@ -138,7 +140,7 @@ enum layers {
 #define ADJ_1       XXXXXXX, MOVE1,   MOVE2,   MOVE3,    MOVE4,          RPG,      MEDIA,   XXXXXXX, XXXXXXX, XXXXXXX
 #define ADJ_2       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
 #define ADJ_3       RESET,   XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX,        XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
-#define LMISC_1     RESTAB,  LTAB,    RMTAB,   RTAB,    NEWTAB,          KC_LCBR,  KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR
+#define LMISC_1     RESTAB,  LTAB,    RMTAB,   RTAB,    READ,          KC_LCBR,  KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR
 #define LMISC_2     UNDO,    CUT,     COPY,    PASTE,   REDO,            KC_DQT,   KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS
 #define LMISC_3     _______, TERMB,   TERMDEL, TERMF,   CONEMU,          KC_DQT,  KC_EXLM, KC_AT,   KC_HASH, KC_PIPE
 

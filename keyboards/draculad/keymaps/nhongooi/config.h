@@ -4,7 +4,7 @@
 #define THUMB_6
 #define _10
 #undef TAPPING_TERM
-#define TAPPING_TERM 150
+#define TAPPING_TERM 180
 
 // Prevent normal rollover on alphas from accidentally triggering mods.
 #define IGNORE_MOD_TAP_INTERRUPT
